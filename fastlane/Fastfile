@@ -60,11 +60,15 @@ platform :ios do
       key_content: "#{FASTLANE_KEY}"
     )
 
-    previous_build_number = latest_testflight_build_number(
-      app_identifier: APP_IDENTIFIER,
-      api_key: api_key,
-    )
-
+previous_build_number = begin
+      latest_testflight_build_number(
+        app_identifier: APP_IDENTIFIER,
+        api_key: api_key,
+      )
+    rescue
+      0
+    end
+ 
     current_build_number = previous_build_number + 1
 
     increment_build_number(
